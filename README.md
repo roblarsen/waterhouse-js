@@ -1,2 +1,2 @@
-# _math
+# WaterhouseJS
 Math and JavaScript, I guess?
