@@ -1,5 +1,6 @@
-function factorial(N) {
-  let factorial = 1;
+function factorial(num) {
+  let factorial = BigInt(1);
+  let N = new BigIng(num);
   while (N > 0) {
     factorial = factorial * N;
     N--;
