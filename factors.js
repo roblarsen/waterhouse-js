@@ -1,11 +1,10 @@
 function factors(num) {
   let result = [];
-  let n = BigInt(num);
   for (let i = 1; i <= Math.sqrt(n); i++) {
     if (n % i === 0) {
       result.push(i);
-      if (n / i !== i) {
-        result.push(n / i);
+      if (num / i !== i) {
+        result.push(num / i);
       }
     }
   }
