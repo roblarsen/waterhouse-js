@@ -9,7 +9,7 @@ function factors(num) {
       }
     }
   }
-  return result.sort((a,b)=>a - b);
+  return result.sort((a,b) => a - b);
 }
 
 export default factors;
