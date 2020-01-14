@@ -3,7 +3,7 @@ function triangle(num) {
 }
 function generateTriangleNumbers(num) {
   let triangles = [];
-  for (let i = 1; i <= num; i++) {
+  for (let i = 1; i < num; i++) {
     triangles.push(triangle(i));
   }
   return triangles;
