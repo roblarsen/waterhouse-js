@@ -1,10 +1,15 @@
 function collatz(num) {
-  if (typeof num !== "bigint"){
-    let n = BigInt(num);  
-  }
+  let n;
   let index = BigInt(1);
   let steps = [n];
-  while (n !== 1n) {
+  const test = BigInt(1);
+
+  if (typeof num !== "bigint"){
+     n = BigInt(num);
+  } else {
+     n = num;
+  }
+  while (n !== test ) {
     n = step(n);
     steps.push(n);
     index++;
@@ -15,10 +20,11 @@ function collatz(num) {
 
 function step(num) {
   let n = BigInt(num);
-  if (n % 2 === 0n) {
-    return n / 2n;
+  const test = BigInt(0);
+  if (n % 2 === test) {
+    return n / BigInt(2);
   } else {
-    return 3n * n + 1n;
+    return BigInt(3) * n + BigInt(1);
   }
 }
 export default collatz;
