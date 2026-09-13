@@ -1,20 +1,19 @@
 class Utilities {
-  cosec(num) {
+  cosec(num: number): number {
     return 1 / Math.sin(num);
   }
 
-  sec(num) {
+  sec(num: number): number {
     return 1 / Math.cos(num);
   }
 
-  radians(degrees) {
+  radians(degrees: number): number {
     return degrees * (Math.PI / 180);
   }
 
-  degrees(radians) {
+  degrees(radians: number): number {
     return radians * (180 / Math.PI);
   }
-
 }
 
 export default Utilities;
