@@ -1,35 +1,61 @@
 {
   "name": "waterhouse-js",
-  "version": "0.0.1",
-  "description": "Math and JavaScript, I guess?",
-  "private": true,
+  "version": "1.0.0",
+  "description": "A small TypeScript library for mathematical utilities and numeric helpers.",
+  "keywords": [
+    "math",
+    "utilities",
+    "typescript",
+    "mathematics",
+    "numeric",
+    "library"
+  ],
+  "license": "MIT",
+  "author": "Robert Larsen",
+  "private": false,
   "type": "module",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
+      "types": {
+        "import": "./dist/index.d.ts",
+        "require": "./dist/index.d.cts"
+      },
       "import": "./dist/index.mjs",
-      "require": "./dist/index.js"
-    }
+      "require": "./dist/index.js",
+      "default": "./dist/index.js"
+    },
+    "./package.json": "./package.json"
   },
   "scripts": {
     "build": "tsup",
     "dev": "tsup --watch",
     "typecheck": "tsc --noEmit",
+    "prepublishOnly": "npm run build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/roblarsen/waterhouse_js.git"
   },
-  "author": "",
-  "license": "ISC",
   "bugs": {
     "url": "https://github.com/roblarsen/waterhouse_js/issues"
   },
   "homepage": "https://github.com/roblarsen/waterhouse_js#readme",
+  "engines": {
+    "node": ">=18"
+  },
+  "sideEffects": false,
+  "publishConfig": {
+    "access": "public"
+  },
   "devDependencies": {
     "@types/node": "^22.10.2",
     "tsup": "^8.4.0",

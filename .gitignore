@@ -1,2 +1,16 @@
-archive
-node_modules
+# dependencies
+node_modules/
+
+# coverage and local tooling
+coverage/
+.nyc_output/
+
+# build artifacts
+*.log
+
+# local/editor files
+.DS_Store
+archive/
+
+# keep dist for published package
+!dist/

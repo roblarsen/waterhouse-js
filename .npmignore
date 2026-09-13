@@ -1,0 +1,10 @@
+src/
+*.ts
+*.map
+coverage/
+.nyc_output/
+.github/
+.vscode/
+.gitignore
+.eslintrc.js
+node_modules/
