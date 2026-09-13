@@ -11,4 +11,3 @@ export function generateTriangleNumbers(num: number): number[] {
 
   return triangles;
 }
-

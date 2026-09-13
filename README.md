@@ -20,7 +20,7 @@ import {
   collatz,
   triangle,
   generateTriangleNumbers,
-} from "waterhouse-js";
+} from 'waterhouse-js';
 
 console.log(aperys);
 console.log(factorial(5n));

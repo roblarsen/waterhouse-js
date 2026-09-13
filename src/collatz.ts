@@ -7,7 +7,7 @@ function step(num: bigint): bigint {
 }
 
 function collatz(num: bigint | number): bigint {
-  let n: bigint = typeof num === "bigint" ? num : BigInt(num);
+  let n: bigint = typeof num === 'bigint' ? num : BigInt(num);
   let index = 1n;
 
   if (n === 0n) {
