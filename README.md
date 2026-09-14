@@ -4,6 +4,8 @@ Math and JavaScript, I guess?
 
 ## Installation
 
+Requires Node.js 20 or newer.
+
 ```bash
 npm install
 ```
