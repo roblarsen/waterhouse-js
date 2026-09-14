@@ -20,6 +20,7 @@ var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: tru
 // src/index.ts
 var index_exports = {};
 __export(index_exports, {
+  Solitaire: () => Solitaire,
   Utilities: () => utilities_default,
   aperys: () => aperys,
   collatz: () => collatz_default,
@@ -133,8 +134,122 @@ function generateTriangleNumbers(num) {
   }
   return triangles;
 }
+
+// src/cyphers/solitaire/deck.ts
+var SUITS = ["CLUBS", "DIAMONDS", "HEARTS", "SPADES"];
+function createDeck() {
+  const deck = [];
+  let id = 1;
+  for (const suit of SUITS) {
+    for (let value = 1; value <= 13; value++) {
+      deck.push({ suit, value, id: id++ });
+    }
+  }
+  deck.push({ suit: "JOKER", variant: "A", id: 53 });
+  deck.push({ suit: "JOKER", variant: "B", id: 54 });
+  return deck;
+}
+function getCardValue(card) {
+  if (card.suit === "JOKER") return 53;
+  return card.id;
+}
+
+// src/cyphers/solitaire/solitaire.ts
+var Solitaire = class {
+  deck;
+  constructor(initialDeck) {
+    this.deck = initialDeck ? [...initialDeck] : createDeck();
+  }
+  /**
+   * Keys the deck using a passphrase according to the Schneier spec.
+   */
+  keyDeck(passphrase) {
+    const clean = passphrase.toUpperCase().replace(/[^A-Z]/g, "");
+    for (const char of clean) {
+      this.stepDeck();
+      const shift = char.charCodeAt(0) - 64;
+      this.countCut(shift);
+    }
+  }
+  /**
+   * Advances deck state by 1 round (steps 1 through 4).
+   */
+  stepDeck() {
+    this.shiftCard(53, 1);
+    this.shiftCard(54, 2);
+    this.tripleCut();
+    const bottomVal = getCardValue(this.deck[53]);
+    this.countCut(bottomVal);
+  }
+  /**
+   * Generates the next valid keystream letter [A-Z].
+   */
+  nextKey() {
+    while (true) {
+      this.stepDeck();
+      const topVal = getCardValue(this.deck[0]);
+      const checkCard = this.deck[topVal];
+      if (checkCard.suit !== "JOKER") {
+        const val = getCardValue(checkCard);
+        const letterCode = (val - 1) % 26 + 1;
+        return String.fromCharCode(64 + letterCode);
+      }
+    }
+  }
+  encrypt(plaintext) {
+    const sanitized = plaintext.toUpperCase().replace(/[^A-Z]/g, "");
+    let ciphertext = "";
+    for (const char of sanitized) {
+      const p = char.charCodeAt(0) - 64;
+      const k = this.nextKey().charCodeAt(0) - 64;
+      const c = (p + k - 1) % 26 + 1;
+      ciphertext += String.fromCharCode(64 + c);
+    }
+    return ciphertext.match(/.{1,5}/g)?.join(" ") ?? "";
+  }
+  decrypt(ciphertext) {
+    const sanitized = ciphertext.toUpperCase().replace(/[^A-Z]/g, "");
+    let plaintext = "";
+    for (const char of sanitized) {
+      const c = char.charCodeAt(0) - 64;
+      const k = this.nextKey().charCodeAt(0) - 64;
+      let p = (c - k) % 26;
+      if (p <= 0) p += 26;
+      plaintext += String.fromCharCode(64 + p);
+    }
+    return plaintext;
+  }
+  // Permutation primitives
+  shiftCard(cardId, count) {
+    const idx = this.deck.findIndex((c) => c.id === cardId);
+    const card = this.deck.splice(idx, 1)[0];
+    let newIdx = idx + count;
+    if (newIdx > 53) {
+      newIdx = (newIdx - 1) % 53 + 1;
+    }
+    this.deck.splice(newIdx, 0, card);
+  }
+  tripleCut() {
+    const idxA = this.deck.findIndex((c) => c.id === 53);
+    const idxB = this.deck.findIndex((c) => c.id === 54);
+    const first = Math.min(idxA, idxB);
+    const second = Math.max(idxA, idxB);
+    const top = this.deck.slice(0, first);
+    const middle = this.deck.slice(first, second + 1);
+    const bottom = this.deck.slice(second + 1);
+    this.deck = [...bottom, ...middle, ...top];
+  }
+  countCut(count) {
+    if (count >= 53) return;
+    const bottomCard = this.deck[53];
+    const toCut = this.deck.slice(0, count);
+    const remaining = this.deck.slice(count, 53);
+    this.deck = [...remaining, ...toCut, bottomCard];
+  }
+};
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
+  Solitaire,
   Utilities,
   aperys,
   collatz,
