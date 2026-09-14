@@ -57,7 +57,7 @@
   },
   "homepage": "https://github.com/roblarsen/waterhouse_js#readme",
   "engines": {
-    "node": ">=18"
+    "node": ">=20"
   },
   "sideEffects": false,
   "publishConfig": {
